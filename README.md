@@ -34,11 +34,12 @@ The trained model can then be deployed as a web service (locally / on a Docker c
 >* Further explanation in [4. Virtual environment and package dependencies](#venv)
 
 **EDA, Feature analysis, Models, Parameter tuning**
->* bank-additional-full.csv - dataset used for this project
+>* london_merged.csv - dataset used for this project.
 
-Source: [Moro et al., 2014] S. Moro, P. Cortez and P. Rita. A Data-Driven Approach to Predict the Success of Bank Telemarketing. Decision Support Systems, Elsevier, 62:22-31, June 2014
+Kaggle dataset URL:  https://www.kaggle.com/hmavrodiev/london-bike-sharing-dataset
+Original data:
 
-URL:  https://archive.ics.uci.edu/ml/datasets/bank+marketing
+License: Please refer to [License for using this data](./License_dataset.md)
 
 >* notebook.ipynb - Jupyter notebook used for the analysis, model exploration, tuning etc. This notebook also has output for all (most) of the cells. The size is big and hence maynot open from github. Better way is to download and open in your Jupyter notebook to see the steps and output.
 >* notebook-without-output.ipynb - Above notebook with output stripped to reduce the size. Can view in github also.
@@ -46,12 +47,17 @@ URL:  https://archive.ics.uci.edu/ml/datasets/bank+marketing
 
 **Model training**
 >* train.py - Script to train the final/best model with tuned parameters and save the model file to disk
->* xgb_model.bin - Saved model file. This file contains poly (for polynomial feature transformation), dv (DictVectorizer for One-hot encoding) and xgb (the trained XGBoost model).
+>* capstone-xgb_model.bin - Saved model file. This file contains the trained XGBoost model (which was the best model, with tuned hyper-parameters).
 >* Further explanation in [5. Train the model](#train-model)
 
 **Prediction model as a Web service**
 >* predict.py - Prediction model deployed as a Web service using Flask
->* request.py - Sample sript to send request to the Web service (run via predict.py) and display the output (prediction). To make it convinient to test, 4 sample customer data points have been added in the script. You can edit the script and change customer variable to use any of these 4 datapoints (customer1, 2, 3, 4) to test for different customers. 
+>* request.py - Sample sript to send request to the Web service (run via predict.py) and display the output (prediction). 
+
+>       To make it convenient to test, few sample data points have been added in the request.py script. You can edit the script and change the index of sample_data_points to use any of these sample datapoints different scenarios. (example below shows index 3, meaning sample 3)
+>    
+>       details = sample_data_points[3]
+
 >* Further explanation in [6. Model deployment as a web service on local machine](#deploy-model-local)
 
 **Deployment to Docker**
@@ -60,7 +66,7 @@ URL:  https://archive.ics.uci.edu/ml/datasets/bank+marketing
 
 **Deployment to Cloud**
 >* heroku-app-deploy - Folder having all the necessary files (Dockerfile, model, web service script, request/test script) required for deployment to Heroku cloud.
->* cloud-request.py - Sample sript to send request to the Web service (run via predict.py) running on Heroku cloud and display the output (prediction). To make it convinient to test, 4 sample customer data points have been added in the script. You can edit the script and change customer variable to use any of these 4 datapoints (customer1, 2, 3, 4) to test for different customers. 
+>* cloud-request.py - Sample sript to send request to the Web service (run via predict.py) running on Heroku cloud and display the output (prediction). Similar to request.py explained above, there are few sample data points provided in the script for testing. 
 >* deploy-web-service-to-heroku.md - Provides instructions on how to deploy the Web service to Heroku cloud and test it. Also has screenshots showing the successful deployment to Cloud and a sample test execution (to refer to, incase the Cloud based service is not available when you test)
 >* Further explanation in [8. Deploy model as a web service to Heroku Cloud](#deploy-model-cloud)
 
@@ -79,7 +85,7 @@ Jupyter notebook [notebook.ipynb](./notebook.ipynb) contains all the code for co
   3.2 EDA - additional
 4. Baseline model
 5. Improvement over baseline model
-  5.1 Logistic Regression
+  5.1 Linear Regression
   5.2 Decision Tree
   5.3 Random Forest
   5.4 XGBoost
@@ -89,11 +95,13 @@ Jupyter notebook [notebook.ipynb](./notebook.ipynb) contains all the code for co
 ```
 
 **Summary**
-* This is a binary classification problem. The data is related with direct marketing campaigns of a Portuguese banking institution. The marketing campaigns were based on phone calls. Often, more than one contact to the same client was required, in order to assess if the product (bank term deposit) would be ('yes') or not ('no') subscribed.
-* EDA was performed analysing for missing data, data distribution, target feature imbalance, feature importance using mutual information between categorical features, correlation of numerical features with target and amongst them, looking for extreme high values, cardinality of categorical features. Performed different transformations to see effect on distribution.
-* Baseline model was prepared using Logistic Regression
+* This is a regression problem. The data is related to bike shares in London for a period of 2 years and few days, with information on time, weather conditions etc.
+* EDA was performed analysing for missing data, data distribution, target feature, feature importance using mutual information between categorical features, correlation of numerical features with target and amongst them, looking for extreme high values, cardinality of categorical features. Performed different transformations to see effect on distribution.
+* Baseline model was prepared using Linear Regression
 * Data was split into Train (70%), Validation (20%), Test (10%). Further experiments were done on training data validating on the validation data (not touching the test data at all)
-* Experiments were done to improve the model performance. This involved evaluating model by dropping one feature at a time, then dropping groups of features at a time where dropping a feature had resulted in improved score, scaling the numerical features, using polynomial features and one-hot encoding the categorical features. **Score improved with scaling and dropping a set of features**
+* Experiments were done to improve the model performance. This involved evaluating model by creating new time related features from the original timestamp feature (e.g. day-of-week, week-of-year etc.). 
+* Used standard train_test_split as well as tested cross-validation methods like TimeSeriesSplit and BlockingTimeSeriesSplit.
+* Tried using cyclical encoding (using sine and cosine) of time related features. Since time related features are cyclic, e.g. day of week goes from Monday to Sunday and again Monday, models can benefit from cyclical encoding. **In the tests for this dataset however, score did not improve with this encoding**
 * Evaluated using other models - DecisionTreeClassifier, RandomForestClassifier and XGBoost - with similar experiments as above (feature dropping, scaling etc.)
 * Parameter tuning of the best experiment for each of the model was done
 * Finally compared results from all the model tunings to determine the best model (with best experiment of feature scaling and feature dropping) with best hyper-parameters
