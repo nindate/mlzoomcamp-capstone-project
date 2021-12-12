@@ -1,0 +1,9 @@
+scikit-learn==1.0
+pandas 
+matplotlib 
+seaborn 
+xgboost 
+flask 
+requests 
+plotly 
+jupyter
