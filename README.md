@@ -98,14 +98,14 @@ Jupyter notebook [notebook.ipynb](./notebook.ipynb) contains all the code for co
 * This is a regression problem. The data is related to bike shares in London for a period of 2 years and few days, with information on time, weather conditions etc.
 * EDA was performed analysing for missing data, data distribution, target feature, feature importance using mutual information between categorical features, correlation of numerical features with target and amongst them, looking for extreme high values, cardinality of categorical features. Performed different transformations to see effect on distribution.
 * Baseline model was prepared using Linear Regression
-* Data was split into Train (70%), Validation (20%), Test (10%). Further experiments were done on training data validating on the validation data (not touching the test data at all)
+* Data was split into Train (70%), Validation (20%), Test (10%). Further experiments were done on training data, while validating on the validation data (not touching the test data at all)
 * Experiments were done to improve the model performance. This involved evaluating model by creating new time related features from the original timestamp feature (e.g. day-of-week, week-of-year etc.). 
 * Used standard train_test_split as well as tested cross-validation methods like TimeSeriesSplit and BlockingTimeSeriesSplit.
 * Tried using cyclical encoding (using sine and cosine) of time related features. Since time related features are cyclic, e.g. day of week goes from Monday to Sunday and again Monday, models can benefit from cyclical encoding. **In the tests for this dataset however, score did not improve with this encoding**
-* Evaluated using other models - DecisionTreeClassifier, RandomForestClassifier and XGBoost - with similar experiments as above (feature dropping, scaling etc.)
+* Evaluated using other models - DecisionTree, RandomForest and XGBoost
 * Parameter tuning of the best experiment for each of the model was done
-* Finally compared results from all the model tunings to determine the best model (with best experiment of feature scaling and feature dropping) with best hyper-parameters
-* Trained final model on full train data (training + validation) and validated on test data, saved model file to disk. Achived **AUC of 0.810** on final model validated on test dataset.
+* Finally compared results from all the model tunings to determine the best model (with best experiment of adding time related features and no encoding) with best hyper-parameters
+* Trained final model on full train data (training + validation) and validated on test data, saved model file to disk. Achieved **RMSE of 284** on final model validated on test dataset, which is not so good, but that is wht I could achieve.
 * Created script to use the prediction model a a web service using Flask
 * Deployed the web service to Docker container running on local machine and then to Heroku cloud
 
@@ -119,6 +119,7 @@ The steps to install Python venv will depend on the Operating system you have. B
 1. Install pip3 and venv if not installed (below sample commands to be used on Ubuntu hav been provided
 
 ```
+sudo apt update -y
 sudo apt install -y python3-pip python3-venv
 ```
 
@@ -137,13 +138,13 @@ python3 -m venv mlzoomcamp
 4. Clone this repo
 
 ```
-git clone https://github.com/nindate/mlzoomcamp-midterm-project.git
+git clone https://github.com/nindate/mlzoomcamp-capstone-project.git
 ```
 
 5. Change to the directory that has the required files
 
 ```
-cd mlzoomcamp-midterm-project/
+cd mlzoomcamp-capstone-project/
 ```
 
 4. Install packages required for this project
@@ -173,10 +174,10 @@ git clone https://github.com/nindate/mlzoomcamp-midterm-project.git
 pwd
 ```
 
-If output of above commands does not show mlzoomcamp-midterm-project at the end, it means you are not in the project directory you cloned. In that case change to the project directory (Below command assumes you are in the directory from where you ran the git clone command above)
+If output of above commands does not show mlzoomcamp-capstone-project at the end, it means you are not in the project directory you cloned. In that case change to the project directory (Below command assumes you are in the directory from where you ran the git clone command above)
 
 ```
-cd mlzoomcamp-midterm-project/
+cd mlzoomcamp-capstone-project/
 ```
 
 4. Run the training script
@@ -187,7 +188,7 @@ python train.py
 
 <a id='deploy-model-local'></a>
 ## 6. Model deployment as a web service on local machine
-For actual use of a model in real world, it needs to be deployed as a service (application) so that users (e.g. in this case Bank's staff who are supposed to call customer for Term Deposit subscription, can use this service. They can now send customer data to the service and get a prediction whether the customer is likely to make a Term deposit or not and hence whether it would be benificial to make the call to customer). 
+For actual use of a model in real world, it needs to be deployed as a service (application) so that users (Organizations managing bike shares) can use this service. They can now send the details of a particular day to the service and get a prediction on possible number of bikes shares on that day. 
 
 To test the model deployment as a web service - open 2 separate terminal sessions into your machine (where all this code resides) and activate the virtual environment as explained in [4. Virtual environment and package dependencies](#venv)
 
@@ -219,31 +220,31 @@ Following are the steps to do this:
 1. Clone this repo (if you have not done this already. If done then skip this step)
 
 ```
-git clone https://github.com/nindate/mlzoomcamp-midterm-project.git
+git clone https://github.com/nindate/mlzoomcamp-capstone-project.git
 ```
 
 2. Change to the directory that has the model file, python script (predict.py) for the web service and other required files
 
 ```
-cd mlzoomcamp-midterm-project/app-deploy
+cd mlzoomcamp-capstone-project/app-deploy
 ```
 
-3. Build docker image named bank-td-prediction
+3. Build docker image named bikes-shares
 
 ```
-docker build -t "bank-td-prediction" .
+docker build -t "bike-shares" .
 ```
 
-4. Check docker image available. Output of below command should show the image with name bank-td-prediction
+4. Check docker image available. Output of below command should show the image with name bike-shares
 
 ```
 docker images
 ```
 
-5. Create a docker container from the image. The model prediction script as a web service will then be running inside this container. Below command will create and run a docker container named bank-td-cont (**--name bank-td-cont**) running as a daemon i.e. non-interactive mode (**-d**), mapping the port 9696 on host to port 9696 on container (**-p 9696:9696** first port is host port, second is container port. If you want to map different port on host just change the first number), from image **bank-td-prediction**. The container will be deleted if stopped or when you shutdown your machine (**--rm**).
+5. Create a docker container from the image. The model prediction script as a web service will then be running inside this container. Below command will create and run a docker container named bike-shares-cont (**--name bike-shares-cont**) running as a daemon i.e. non-interactive mode (**-d**), mapping the port 9696 on host to port 9696 on container (**-p 9696:9696** first port is host port, second is container port. If you want to map different port on host just change the first number), from image **bikes-shares**. The container will be deleted if stopped or when you shutdown your machine (**--rm**).
 
 ```
-docker run --rm --name bank-td-cont -d -p 9696:9696 bank-td-prediction
+docker run --rm --name bike-shares-cont -d -p 9696:9696 bike-shares
 ```
 
 6. Check whether docker container running. Below command should show the container in Running state and not Exited.
@@ -252,7 +253,7 @@ docker run --rm --name bank-td-cont -d -p 9696:9696 bank-td-prediction
 docker ps -a
 ```
 
-7. Test sending some sample customer data to the web service and see the results. For this you can use the request.py script provided as part of this repo, which has some sample customer entries and can make a request to the Web app service. Ensure you have activated the virtual environment as explained in [4. Virtual environment and package dependencies](#venv).
+7. Test sending some sample data to the web service and see the results. For this you can use the request.py script provided as part of this repo, which has some sample data points and can make a request to the Web app service. Ensure you have activated the virtual environment as explained in [4. Virtual environment and package dependencies](#venv).
 
 Check whether you are already in the project directory which you cloned from git. If not change to that directory.
 
@@ -260,10 +261,10 @@ Check whether you are already in the project directory which you cloned from git
 pwd
 ```
 
-If output of above commands does not show mlzoomcamp-midterm-project at the end, it means you are not in the project directory you cloned. In that case change to the project directory (Below command assumes you are in the directory from where you ran the git clone command above)
+If output of above commands does not show mlzoomcamp-capstone-project at the end, it means you are not in the project directory you cloned. In that case change to the project directory (Below command assumes you are in the directory from where you ran the git clone command above)
 
 ```
-cd mlzoomcamp-midterm-project/
+cd mlzoomcamp-capstone-project/
 ```
 
 Run the script request.py to send a request to the web service running inside the docker container
