@@ -26,6 +26,8 @@ This is a regression problem.
 
 The trained model can then be deployed as a web service (locally / on a Docker container / in Cloud). Organizations managing bikes for sharing, can then use this service to get predictions on bikes required to be maintained at different times or in different weather conditions. This will also help them plan maintainance of bikes when there could be less demand.
 
+**Acknowledgements:** The dataset is Powered by TfL Open Data. The data contains OS data © Crown copyright and database rights 2016' and Geomni UK Map data © and database rights [2019].
+* Reference to orignal data - https://cycling.data.tfl.gov.uk/
 
 <a id='key-files'></a>
 ## 2. Key files and folders explained
