@@ -107,7 +107,7 @@ Jupyter notebook [notebook.ipynb](./notebook.ipynb) contains all the code for co
 * Evaluated using other models - DecisionTree, RandomForest and XGBoost
 * Parameter tuning of the best experiment for each of the model was done
 * Finally compared results from all the model tunings to determine the best model (with best experiment of adding time related features and no encoding) with best hyper-parameters
-* Trained final model on full train data (training + validation) and validated on test data, saved model file to disk. Achieved **RMSE of 284** on final model validated on test dataset, which is not so good, but that is wht I could achieve.
+* Trained final model on full train data (training + validation) and validated on test data, saved model file to disk. Achieved **RMSE of 284** on final model validated on test dataset, which is not so good, but that is what I could achieve.
 * Created script to use the prediction model a a web service using Flask
 * Deployed the web service to Docker container running on local machine and then to Heroku cloud
 
