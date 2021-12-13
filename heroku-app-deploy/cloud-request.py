@@ -1,7 +1,7 @@
 import pandas as pd
 import requests
 
-url = 'http://localhost:9696/predict'
+url = 'https://ml-zoom-docker.herokuapp.com/predict'
 
 sample_data_points = [
     {'timestamp': '2016-12-22 08:00:00', 't1': 5.0, 't2': 2.0, 'hum': 100.0, 'wind_speed': 13.0, 'weather_code': 4, 'is_holiday': 0, 'is_weekend': 0, 'season': 3},   # actual=2510
