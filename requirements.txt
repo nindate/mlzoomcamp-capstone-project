@@ -6,4 +6,4 @@ xgboost
 flask 
 requests 
 plotly 
-jupyter
+gunicorn

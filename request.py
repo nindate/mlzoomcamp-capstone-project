@@ -17,4 +17,5 @@ sample_data_points = [
 details = sample_data_points[3]
 prediction = requests.post(url,json=details).json()
 
+print(f"input data: {details}")
 print(f"predicted bike shares: {prediction}")
