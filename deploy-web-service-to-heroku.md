@@ -59,13 +59,13 @@ To be able to deploy to Heroku as a docker container, you need to first have doc
 1. Clone this repo (if you have not done this already. If done then skip this step)
 
 ```
-git clone https://github.com/nindate/mlzoomcamp-midterm-project.git
+git clone https://github.com/nindate/mlzoomcamp-capstone-project.git
 ```
 
 2. Change to the directory that has the model file, python script (predict.py) for the web service and other required files for deployent to Heroku
 
 ```
-cd mlzoomcamp-midterm-project/heroku-app-deploy
+cd mlzoomcamp-capstone-project/heroku-app-deploy
 ```
 
 3. Login to heroku from your machine. Verify heroku command is found (In step 1.2.c. above the path has already been set) in the path. Then using heroku cli, login to heroku.  Press any key when asked to do so.
