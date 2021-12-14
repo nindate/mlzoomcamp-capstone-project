@@ -176,7 +176,7 @@ git clone https://github.com/nindate/mlzoomcamp-midterm-project.git
 pwd
 ```
 
-If output of above commands does not show mlzoomcamp-capstone-project at the end, it means you are not in the project directory you cloned. In that case change to the project directory (Below command assumes you are in the directory from where you ran the git clone command above)
+If output of above command does not show mlzoomcamp-capstone-project at the end, it means you are not in the project directory you cloned. In that case change to the project directory (Below command assumes you are in the directory from where you ran the git clone command above)
 
 ```
 cd mlzoomcamp-capstone-project/
@@ -188,19 +188,33 @@ cd mlzoomcamp-capstone-project/
 python train.py
 ```
 
+After completion of the train.py script, it will save the trained model to disk as file capstone-xgb_model.bin
+
 <a id='deploy-model-local'></a>
 ## 6. Model deployment as a web service on local machine
 For actual use of a model in real world, it needs to be deployed as a service (application) so that users (Organizations managing bike shares) can use this service. They can now send the details of a particular day to the service and get a prediction on possible number of bikes shares on that day. 
 
 To test the model deployment as a web service - open 2 separate terminal sessions into your machine (where all this code resides) and activate the virtual environment as explained in [4. Virtual environment and package dependencies](#venv)
 
-From one terminal session run the following command to host the prediction model as a web service.
+1. Check whether you are already in the project directory which you cloned from git. If not change to that directory.
+
+```
+pwd
+```
+
+If output of above command does not show mlzoomcamp-capstone-project at the end, it means you are not in the project directory you cloned. In that case change to the project directory (Below command assumes you are in the directory from where you ran the git clone command above)
+
+```
+cd mlzoomcamp-capstone-project/
+```
+
+2. From one terminal session run the following command to host the prediction model as a web service.
 
 ```
 gunicorn --bind 0.0.0.0:9696 predict:app
 ```
 
-From other terminal session from the cloned project directory, execute the following command to make a request to this web service
+3. From other terminal session from the cloned project directory, execute the following command to make a request to this web service
 
 ```
 python request.py
@@ -225,51 +239,49 @@ Following are the steps to do this:
 git clone https://github.com/nindate/mlzoomcamp-capstone-project.git
 ```
 
-2. Change to the directory that has the model file, python script (predict.py) for the web service and other required files
-
-```
-cd mlzoomcamp-capstone-project/app-deploy
-```
-
-3. Build docker image named bikes-shares
-
-```
-docker build -t "bike-shares" .
-```
-
-4. Check docker image available. Output of below command should show the image with name bike-shares
-
-```
-docker images
-```
-
-5. Create a docker container from the image. The model prediction script as a web service will then be running inside this container. Below command will create and run a docker container named bike-shares-cont (**--name bike-shares-cont**) running as a daemon i.e. non-interactive mode (**-d**), mapping the port 9696 on host to port 9696 on container (**-p 9696:9696** first port is host port, second is container port. If you want to map different port on host just change the first number), from image **bikes-shares**. The container will be deleted if stopped or when you shutdown your machine (**--rm**).
-
-```
-docker run --rm --name bike-shares-cont -d -p 9696:9696 bike-shares
-```
-
-6. Check whether docker container running. Below command should show the container in Running state and not Exited.
-
-```
-docker ps -a
-```
-
-7. Test sending some sample data to the web service and see the results. For this you can use the request.py script provided as part of this repo, which has some sample data points and can make a request to the Web app service. Ensure you have activated the virtual environment as explained in [4. Virtual environment and package dependencies](#venv).
-
-Check whether you are already in the project directory which you cloned from git. If not change to that directory.
+2. Check whether you are already in the project directory which you cloned from git. If not change to that directory.
 
 ```
 pwd
 ```
 
-If output of above commands does not show mlzoomcamp-capstone-project at the end, it means you are not in the project directory you cloned. In that case change to the project directory (Below command assumes you are in the directory from where you ran the git clone command above)
+If output of above command does not show mlzoomcamp-capstone-project at the end, it means you are not in the project directory you cloned. In that case change to the project directory (Below command assumes you are in the directory from where you ran the git clone command above)
 
 ```
 cd mlzoomcamp-capstone-project/
 ```
 
-Run the script request.py to send a request to the web service running inside the docker container
+3. Change to the directory that has the model file, python script (predict.py) for the web service and other required files
+
+```
+cd app-deploy
+```
+
+4. Build docker image named bikes-shares
+
+```
+docker build -t "bike-shares" .
+```
+
+5. Check docker image available. Output of below command should show the image with name bike-shares
+
+```
+docker images
+```
+
+6. Create a docker container from the image. The model prediction script as a web service will then be running inside this container. Below command will create and run a docker container named bike-shares-cont (**--name bike-shares-cont**) running as a daemon i.e. non-interactive mode (**-d**), mapping the port 9696 on host to port 9696 on container (**-p 9696:9696** first port is host port, second is container port. If you want to map different port on host just change the first number), from image **bikes-shares**. The container will be deleted if stopped or when you shutdown your machine (**--rm**).
+
+```
+docker run --rm --name bike-shares-cont -d -p 9696:9696 bike-shares
+```
+
+7. Check whether docker container is running. Below command should show the container in Running state and not Exited.
+
+```
+docker ps -a
+```
+
+8. Test sending some sample data to the web service and see the results. For this you can use the request.py script provided as part of this repo, which has some sample data points and can make a request to the Web app service. Run the script request.py to send a request to the web service running inside the docker container
 
 ```
 python request.py
