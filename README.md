@@ -197,7 +197,7 @@ To test the model deployment as a web service - open 2 separate terminal session
 From one terminal session run the following command to host the prediction model as a web service.
 
 ```
-gunicorn --bind 0.0.0.0:9696 predict.py
+gunicorn --bind 0.0.0.0:9696 predict:app
 ```
 
 From other terminal session from the cloned project directory, execute the following command to make a request to this web service
