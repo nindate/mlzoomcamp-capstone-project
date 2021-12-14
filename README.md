@@ -224,7 +224,7 @@ python request.py
 ## 7. Deploy model as a web service to Docker container
 You can deploy the trained model as a web service running inside a docker container on your local machine.
 
-*Pre-requisites: You should have Docker installed and running on the machine where you want to perform model deployment to docker.*
+*Pre-requisites: You should have Docker installed and running on the machine where you want to perform model deployment to docker. You can refer to this [guide](https://github.com/nindate/ml-zoomcamp-exercises/blob/main/how-to-install-docker.md) for instruction on how to install Docker*
 Run the below commands to check whether docker service is running and then to see if any docker containers are running.
 
 ```
