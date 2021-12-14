@@ -194,9 +194,9 @@ After completion of the train.py script, it will save the trained model to disk 
 ## 6. Model deployment as a web service on local machine
 For actual use of a model in real world, it needs to be deployed as a service (application) so that users (Organizations managing bike shares) can use this service. They can now send the details of a particular day to the service and get a prediction on possible number of bikes shares on that day. 
 
-To test the model deployment as a web service - open 2 separate terminal sessions into your machine (where all this code resides) and activate the virtual environment as explained in [4. Virtual environment and package dependencies](#venv)
+1. To test the model deployment as a web service - open 2 separate terminal sessions on your machine (where all this code resides) and activate the virtual environment as explained in [4. Virtual environment and package dependencies](#venv)
 
-1. Check whether you are already in the project directory which you cloned from git. If not change to that directory.
+2. Check whether you are already in the project directory which you cloned from git. If not change to that directory.
 
 ```
 pwd
@@ -208,13 +208,13 @@ If output of above command does not show mlzoomcamp-capstone-project at the end,
 cd mlzoomcamp-capstone-project/
 ```
 
-2. From one terminal session run the following command to host the prediction model as a web service.
+3. From one terminal session run the following command to host the prediction model as a web service.
 
 ```
 gunicorn --bind 0.0.0.0:9696 predict:app
 ```
 
-3. From other terminal session from the cloned project directory, execute the following command to make a request to this web service
+4. From other terminal session from the cloned project directory, execute the following command to make a request to this web service
 
 ```
 python request.py
@@ -281,7 +281,7 @@ docker run --rm --name bike-shares-cont -d -p 9696:9696 bike-shares
 docker ps -a
 ```
 
-8. Test sending some sample data to the web service and see the results. For this you can use the request.py script provided as part of this repo, which has some sample data points and can make a request to the Web app service. Run the script request.py to send a request to the web service running inside the docker container
+8. Test sending some sample data to the web service and see the results. For this you can use the request.py script provided as part of this repo, which has some sample data points and can make a request to the Web app service. Ensure you have activated the virtual environment as explained in [4. Virtual environment and package dependencies](#venv). Run the script request.py to send a request to the web service running inside the docker container. 
 
 ```
 python request.py
