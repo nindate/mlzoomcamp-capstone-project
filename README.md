@@ -18,7 +18,7 @@ This repo contains the work carried out as part of the Capstone project for the 
 <a id='about-project'></a>
 ## 1. About the Project
 
-The purpose of this project is to try predict the future bike shares in London based on the past information on bike sharing in London.
+The purpose of this project is to try and predict the future bike shares in London based on the past information on bike sharing in London.
 
 With cost of living increasing day by day, congestion charges levied in many parts of London, the choice of using public transport makes sense to people. But what if you want to travel shorter distances, still have your independence and maintain a healthy lifestyle - thats where bike sharing started (is my assumption). Many organizations like Santander offer public bike sharing schemes with several docking stations across London to help and encourage this lifestyle. However it is also a challenge to maintain the requisite number of bikes. The goal of this project is to try and predict the bike share numbers using Machine Learning.
 
@@ -118,7 +118,7 @@ To ensure all scripts work fine and libraries used during development are the on
 
 The steps to install Python venv will depend on the Operating system you have. Below steps have been provided in reference to installation on Ubuntu, however you can refer to Official documentation at https://docs.python.org/3/tutorial/venv.html to know appropriate steps for your OS.
 
-1. Install pip3 and venv if not installed (below sample commands to be used on Ubuntu hav been provided
+1. Install pip3 and venv if not installed (below sample commands to be used on Ubuntu have been provided
 
 ```
 sudo apt update -y
