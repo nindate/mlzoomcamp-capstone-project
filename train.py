@@ -110,15 +110,6 @@ def pre_process_new_ft(df_to_process):
     df_to_process['week-of-year'] = df_to_process['week-of-year'].astype('uint8')
     df_to_process['day-of-year'] = df_to_process['day-of-year'].astype('uint16')
 
-
-    # Create cyclical encoded features
-    cyclical_features = ['year', 'month', 'day', 'hour', 'day-of-week', 'week-of-year', 'day-of-year']
-    for col in cyclical_features:
-        df_to_process[f"{col}_x_norm"] = 2 * math.pi * df_to_process[col] / df_to_process[col].max()
-        df_to_process[f"{col}_cos_x"] = np.cos(df_to_process[f"{col}_x_norm"])
-        df_to_process[f"{col}_sin_x"] = np.sin(df_to_process[f"{col}_x_norm"])
-        del df_to_process[f"{col}_x_norm"]
-
     return df_to_process
 
 
